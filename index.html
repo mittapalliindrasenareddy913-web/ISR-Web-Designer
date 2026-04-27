@@ -4,12 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ISR WeB Designar | Modern Web Design Studio</title>
-
-  <meta name="google-adsense-account" content="ca-pub-9305958174756635">
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9305958174756635"
-     crossorigin="anonymous"></script>
-  
   <meta name="description" content="ISR WeB Designar — Premium freelance web designer crafting stunning, conversion-focused websites. Hire me for your next project!" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -578,7 +572,9 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="privacy-policy.html">Privacy Policy</a></li>
   </ul>
   <a href="https://wa.me/918886304204" class="nav-cta" target="_blank">Hire Me</a>
   <div class="burger" id="burgerBtn">
@@ -593,8 +589,10 @@
   <a href="#services" onclick="closeMobile()">Services</a>
   <a href="#portfolio" onclick="closeMobile()">Portfolio</a>
   <a href="#pricing" onclick="closeMobile()">Pricing</a>
-  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="contact.html" onclick="closeMobile()">Contact</a>
   <a href="#payment" onclick="closeMobile()">Payment</a>
+  <a href="terms.html" onclick="closeMobile()">Terms</a>
+  <a href="privacy-policy.html" onclick="closeMobile()">Privacy Policy</a>
   <a href="https://wa.me/918886304204" class="btn-primary" target="_blank" style="margin-top:10px">Hire Me</a>
 </div>
 
@@ -657,14 +655,14 @@
         My goal is to combine stunning aesthetics with smart functionality — delivering websites that don't just look great, but actually drive results for your business.
       </p>
       <div class="skills-wrap">
-        <span class="skill-tag">HTML5</span>
-        <span class="skill-tag">CSS3</span>
-        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">HTML5 / CSS3</span>
+        <span class="skill-tag">JavaScript (ES6+)</span>
+        <span class="skill-tag">App Development</span>
+        <span class="skill-tag">Supabase & Firebase</span>
+        <span class="skill-tag">Real-time DB</span>
         <span class="skill-tag">UI/UX Design</span>
-        <span class="skill-tag">Responsive Design</span>
-        <span class="skill-tag">Figma</span>
-        <span class="skill-tag">SEO Basics</span>
-        <span class="skill-tag">Web Performance</span>
+        <span class="skill-tag">WhatsApp Automation</span>
+        <span class="skill-tag">SEO & Performance</span>
       </div>
     </div>
   </div>
@@ -719,83 +717,34 @@
     <h2 class="section-title">Recent Projects</h2>
     <p class="section-sub" style="margin:0 auto">A showcase of projects that demonstrate creativity, precision, and purpose.</p>
   </div>
-  <div class="portfolio-grid">
+  <div class="portfolio-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px;">
+    <!-- Featured Project: Sai Collections -->
     <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">
-        🛍️
+      <div class="portfolio-img" style="aspect-ratio: 16/10; font-size: 0; background: none;">
+        <img src="sai_collections_mockup.png" alt="Sai Collections Mockup" style="width: 100%; height: 100%; object-fit: cover;">
         <div class="portfolio-overlay">
-          <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Project</a>
+          <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Case Study</a>
         </div>
       </div>
       <div class="portfolio-info">
-        <span class="portfolio-tag">E-Commerce</span>
-        <h3>Fashion Store Website</h3>
-        <p>Modern e-commerce design with smooth product browsing</p>
+        <span class="portfolio-tag" style="background: rgba(6, 182, 212, 0.15); color: var(--accent3);">Full Stack / Mobile</span>
+        <h3>Sai Collections</h3>
+        <p>A high-speed e-commerce platform with Android app, real-time admin panel, and Supabase integration.</p>
       </div>
     </div>
+
+    <!-- Project 2: YashuArts App -->
     <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#0c4a6e,#075985)">
-        🏨
+      <div class="portfolio-img" style="aspect-ratio: 16/10; font-size: 0; background: none;">
+        <img src="yashu_arts_mockup.png" alt="YashuArts Mockup" style="width: 100%; height: 100%; object-fit: cover;">
         <div class="portfolio-overlay">
           <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Project</a>
         </div>
       </div>
       <div class="portfolio-info">
-        <span class="portfolio-tag">Business</span>
-        <h3>Hotel Booking Website</h3>
-        <p>Premium hotel website with booking integration</p>
-      </div>
-    </div>
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#14532d,#166534)">
-        📊
-        <div class="portfolio-overlay">
-          <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Project</a>
-        </div>
-      </div>
-      <div class="portfolio-info">
-        <span class="portfolio-tag">SaaS</span>
-        <h3>Analytics Dashboard</h3>
-        <p>Dark-themed SaaS dashboard with data visualizations</p>
-      </div>
-    </div>
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#4c0519,#7f1d1d)">
-        🎵
-        <div class="portfolio-overlay">
-          <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Project</a>
-        </div>
-      </div>
-      <div class="portfolio-info">
-        <span class="portfolio-tag">Portfolio</span>
-        <h3>Music Artist Portfolio</h3>
-        <p>Stylish portfolio for a music artist with audio player</p>
-      </div>
-    </div>
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#1c1917,#292524)">
-        🍕
-        <div class="portfolio-overlay">
-          <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Project</a>
-        </div>
-      </div>
-      <div class="portfolio-info">
-        <span class="portfolio-tag">Restaurant</span>
-        <h3>Restaurant Landing Page</h3>
-        <p>Mouth-watering restaurant landing page with menu</p>
-      </div>
-    </div>
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#164e63,#0e7490)">
-        💊
-        <div class="portfolio-overlay">
-          <a href="#contact" class="btn-view"><i class="fas fa-external-link-alt"></i> View Project</a>
-        </div>
-      </div>
-      <div class="portfolio-info">
-        <span class="portfolio-tag">Healthcare</span>
-        <h3>Medical Clinic Website</h3>
-        <p>Professional medical site with appointment booking</p>
+        <span class="portfolio-tag" style="background: rgba(168, 85, 247, 0.15); color: var(--accent2);">Mobile App / Gallery</span>
+        <h3>YashuArts App</h3>
+        <p>Premium digital art gallery and store application with elegant UI and smooth browsing experience.</p>
       </div>
     </div>
   </div>
@@ -959,11 +908,10 @@
     <a href="#services">Services</a>
     <a href="#portfolio">Portfolio</a>
     <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
+    <a href="contact.html">Contact</a>
     <a href="#payment">Payment</a>
-    <a href="/privacy-policy.html">Privacy Policy</a>
-    <a href="/terms.html">Terms & Conditions</a>
-    <a href="/contact.html">Contact</a>
+    <a href="terms.html">Terms</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
   </div>
   <div class="footer-social">
     <a href="https://wa.me/918886304204" class="social-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
