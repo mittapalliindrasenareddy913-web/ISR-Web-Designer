@@ -687,17 +687,16 @@
               pagebreak:    { mode: ['css', 'legacy'] }
             };
 
-            // 2. Generate PDF
-            html2pdf().set(opt).from(element).outputPdf('arraybuffer').then(async function(pdfBuffer) {
+            // 2. Generate PDF using blob to prevent corruption
+            html2pdf().set(opt).from(element).outputPdf('blob').then(async function(pdfBlob) {
                 if (fileHandle) {
                     // 3. Write directly to the chosen file
                     const writable = await fileHandle.createWritable();
-                    await writable.write(pdfBuffer);
+                    await writable.write(pdfBlob);
                     await writable.close();
                 } else {
                     // Fallback for mobile/safari
-                    const blob = new Blob([pdfBuffer], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
+                    const url = window.URL.createObjectURL(pdfBlob);
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
@@ -707,7 +706,7 @@
                     setTimeout(() => {
                         document.body.removeChild(a);
                         window.URL.revokeObjectURL(url);
-                    }, 100);
+                    }, 5000); // 5 seconds to ensure large files finish downloading
                 }
                 
                 if(callback) callback();
