@@ -240,6 +240,11 @@
             color: #fff;
         }
 
+        /* PDF Page Break Fixes */
+        .section, tr, .advance-box, .terms-list li {
+            page-break-inside: avoid;
+        }
+
         .bond-paper {
             background: var(--bond-bg);
             width: 100%;
@@ -652,21 +657,59 @@
             window.scrollTo(0, 0);
         });
 
-        function downloadPDF(callback = null) {
+        async function downloadPDF(callback = null) {
             const element = document.getElementById('bondPaper');
             const clientName = document.getElementById('clientName').value || 'Client';
-            const fileName = `Project_Agreement_${clientName.replace(/\s+/g, '_')}.pdf`;
+            const fileName = `Bond_${clientName.replace(/\s+/g, '_')}.pdf`;
             
+            let fileHandle;
+            // 1. Prompt user to choose save location immediately (solves async UUID bug in Chrome/Edge)
+            try {
+                if (window.showSaveFilePicker) {
+                    fileHandle = await window.showSaveFilePicker({
+                        suggestedName: fileName,
+                        types: [{
+                            description: 'PDF Document',
+                            accept: {'application/pdf': ['.pdf']},
+                        }],
+                    });
+                }
+            } catch (err) {
+                console.log("Save cancelled or failed", err);
+                return; // User cancelled
+            }
+
             const opt = {
-              margin:       0.2,
+              margin:       0.4,
               image:        { type: 'jpeg', quality: 0.98 },
               html2canvas:  { scale: 2, useCORS: true },
-              jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+              jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+              pagebreak:    { mode: ['css', 'legacy'] }
             };
 
-            // Using FileSaver.js to guarantee the filename is respected by the browser
-            html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
-                window.saveAs(pdfBlob, fileName);
+            // 2. Generate PDF
+            html2pdf().set(opt).from(element).outputPdf('arraybuffer').then(async function(pdfBuffer) {
+                if (fileHandle) {
+                    // 3. Write directly to the chosen file
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(pdfBuffer);
+                    await writable.close();
+                } else {
+                    // Fallback for mobile/safari
+                    const blob = new Blob([pdfBuffer], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    }, 100);
+                }
+                
                 if(callback) callback();
             });
         }
