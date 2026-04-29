@@ -665,19 +665,15 @@
               jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // Output to blob to manually force the download with correct extension
-            html2pdf().set(opt).from(element).outputPdf('blob').then((pdfBlob) => {
-                const blobUrl = URL.createObjectURL(pdfBlob);
-                
+            // Use datauristring instead of blob to force the browser to respect the filename
+            html2pdf().set(opt).from(element).outputPdf('datauristring').then((pdfBase64) => {
                 const link = document.createElement('a');
-                link.href = blobUrl;
+                link.href = pdfBase64;
                 link.download = fileName;
                 
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
-                URL.revokeObjectURL(blobUrl);
 
                 if(callback) callback();
             });
