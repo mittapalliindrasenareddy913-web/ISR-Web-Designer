@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bond Paper Generator - isr webdesign</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <style>
         /* Password Overlay Styles */
@@ -656,7 +657,6 @@
             const clientName = document.getElementById('clientName').value || 'Client';
             const fileName = `Project_Agreement_${clientName.replace(/\s+/g, '_')}.pdf`;
             
-            // Generate PDF using html2pdf
             const opt = {
               margin:       0.2,
               image:        { type: 'jpeg', quality: 0.98 },
@@ -664,9 +664,9 @@
               jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // Direct jsPDF save method to bypass browser Blob UUID issues
-            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdfObj) {
-                pdfObj.save(fileName);
+            // Using FileSaver.js to guarantee the filename is respected by the browser
+            html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+                window.saveAs(pdfBlob, fileName);
                 if(callback) callback();
             });
         }
