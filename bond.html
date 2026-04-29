@@ -659,22 +659,14 @@
             // Generate PDF using html2pdf
             const opt = {
               margin:       0.2,
-              filename:     fileName,
               image:        { type: 'jpeg', quality: 0.98 },
               html2canvas:  { scale: 2, useCORS: true },
               jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // Use datauristring instead of blob to force the browser to respect the filename
-            html2pdf().set(opt).from(element).outputPdf('datauristring').then((pdfBase64) => {
-                const link = document.createElement('a');
-                link.href = pdfBase64;
-                link.download = fileName;
-                
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
+            // Direct jsPDF save method to bypass browser Blob UUID issues
+            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdfObj) {
+                pdfObj.save(fileName);
                 if(callback) callback();
             });
         }
