@@ -8,8 +8,179 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<link rel="stylesheet" href="style.css">
 <style>
+/* ===== PORTFOLIO STYLES (style.css integrated) ===== */
+:root {
+  --primary: #7c3aed;
+  --primary-light: #a855f7;
+  --accent: #06b6d4;
+  --dark: #0a0a0f;
+  --dark2: #111118;
+  --dark3: #1a1a2e;
+  --card: #16162a;
+  --card2: #1e1e35;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border: rgba(124,58,237,0.2);
+  --grad: linear-gradient(135deg, #7c3aed, #06b6d4);
+  --shadow: 0 20px 60px rgba(124,58,237,0.15);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+.navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1rem 0; transition: all 0.3s; background: rgba(10,10,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+.navbar.scrolled { padding: 0.75rem 0; }
+.nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 700; font-size: 1.1rem; color: #fff; }
+.logo-img { height: 36px; width: 36px; object-fit: contain; border-radius: 8px; }
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-link { color: var(--text-muted); font-weight: 500; transition: color 0.3s; font-size: 0.95rem; }
+.nav-link:hover, .nav-link.active { color: #fff; }
+.btn-nav { background: var(--grad); color: #fff !important; padding: 0.5rem 1.25rem; border-radius: 50px; font-weight: 600; }
+.hamburger { display: none; cursor: pointer; font-size: 1.4rem; color: var(--text); }
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: space-between; padding: 8rem 2rem 4rem; max-width: 1200px; margin: 0 auto; gap: 3rem; position: relative; }
+.hero-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(6,182,212,0.08) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+.hero-content { flex: 1; position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(124,58,237,0.15); border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; color: var(--primary-light); margin-bottom: 1.5rem; }
+.hero-title { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1rem; font-family: 'Poppins', sans-serif; }
+.gradient-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-sub { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 1rem; }
+.hero-desc { font-size: 1rem; color: var(--text-muted); max-width: 500px; line-height: 1.7; margin-bottom: 2rem; }
+.hero-btns { display: flex; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.btn-primary { background: var(--grad); color: #fff; padding: 0.85rem 2rem; border-radius: 50px; font-weight: 600; font-size: 1rem; transition: transform 0.3s, box-shadow 0.3s; }
+.btn-secondary { border: 1px solid var(--border); color: var(--text); padding: 0.85rem 2rem; border-radius: 50px; font-weight: 600; font-size: 1rem; transition: all 0.3s; background: rgba(255,255,255,0.03); }
+.hero-stats { display: flex; gap: 2.5rem; }
+.stat { display: flex; flex-direction: column; }
+.stat-num { font-size: 2rem; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); }
+.hero-visual { flex: 0 0 380px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.profile-ring { width: 280px; height: 280px; border-radius: 50%; border: 3px solid transparent; background: linear-gradient(var(--dark2), var(--dark2)) padding-box, var(--grad) border-box; display: flex; align-items: center; justify-content: center; position: relative; }
+.profile-photo { width: 260px; height: 260px; border-radius: 50%; object-fit: cover; }
+.profile-initials { width: 260px; height: 260px; border-radius: 50%; background: var(--card); display: none; align-items: center; justify-content: center; font-size: 5rem; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.floating-card { position: absolute; background: rgba(22,22,42,0.9); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 0.6rem 1rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+.fc1 { top: 10%; right: -20px; animation: float 3s ease-in-out infinite; }
+.fc2 { bottom: 20%; left: -30px; animation: float 3s ease-in-out infinite 1s; }
+.fc3 { bottom: 10%; right: 10px; animation: float 3s ease-in-out infinite 2s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.section { padding: 6rem 2rem; }
+.dark-section { background: var(--dark2); }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-tag { display: inline-block; background: rgba(124,58,237,0.15); border: 1px solid var(--border); padding: 0.3rem 1rem; border-radius: 50px; font-size: 0.8rem; color: var(--primary-light); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.about-text p { color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem; font-size: 1rem; }
+.contact-chips { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1.5rem; }
+.chip { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--text-muted); background: var(--card); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border); transition: all 0.3s; }
+.chip:hover { border-color: var(--primary); color: var(--primary-light); }
+.chip i { color: var(--primary-light); }
+.skills-box { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; }
+.skills-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text); }
+.skill-bar-wrap { margin-bottom: 1rem; }
+.skill-bar-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.skill-bar { background: rgba(255,255,255,0.06); border-radius: 50px; height: 6px; overflow: hidden; }
+.skill-fill { height: 100%; background: var(--grad); border-radius: 50px; transition: width 1s ease; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag { background: rgba(124,58,237,0.15); border: 1px solid var(--border); padding: 0.3rem 0.75rem; border-radius: 50px; font-size: 0.8rem; color: var(--primary-light); }
+.sub-heading { font-size: 1.4rem; font-weight: 700; margin: 3rem 0 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+.sub-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+.timeline-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+.timeline-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--grad); flex-shrink: 0; margin-top: 4px; }
+.timeline-year { font-size: 0.8rem; color: var(--primary-light); font-weight: 600; display: block; margin-bottom: 0.25rem; }
+.timeline-content h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.timeline-content p { font-size: 0.9rem; color: var(--text-muted); }
+.achievement-cards { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.ach-card { flex: 1; min-width: 220px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; transition: all 0.3s; }
+.ach-card:hover { border-color: var(--primary); transform: translateY(-4px); }
+.ach-card.gold { border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.05); }
+.ach-icon { font-size: 2rem; color: var(--primary-light); }
+.cert-lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; padding: 1rem; }
+.cert-lightbox.open { display: flex; }
+.cert-lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; border-radius: 16px; overflow: hidden; box-shadow: 0 0 60px rgba(124,58,237,0.4); }
+.cert-lightbox-inner img { max-width: 90vw; max-height: 85vh; object-fit: contain; display: block; border-radius: 12px; }
+.cert-close { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.project-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: relative; transition: all 0.3s; overflow: hidden; }
+.project-card:hover { border-color: var(--primary); transform: translateY(-6px); box-shadow: var(--shadow); }
+.project-card.featured { border-color: var(--primary); }
+.project-card > * { position: relative; z-index: 1; }
+.project-icon { width: 50px; height: 50px; background: rgba(124,58,237,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.25rem; color: var(--primary-light); }
+.project-badge { display: inline-block; background: rgba(124,58,237,0.2); border: 1px solid var(--border); padding: 0.2rem 0.7rem; border-radius: 50px; font-size: 0.75rem; color: var(--primary-light); margin-bottom: 0.75rem; }
+.project-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.project-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.project-tags span { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.75rem; color: var(--accent); }
+.resume-tabs { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+.tab-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; border-radius: 50px; border: 1px solid var(--border); background: var(--card); color: var(--text-muted); font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+.tab-btn.active { background: var(--grad); border-color: transparent; color: #fff; }
+.resume-wrapper { display: none; }
+.resume-wrapper.active { display: block; }
+.resume-actions { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
+.save-btn { display: flex; align-items: center; gap: 0.5rem; background: var(--grad); color: #fff; border: none; padding: 0.75rem 1.75rem; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+.resume-frame { background: #fff; color: #222; border-radius: 16px; overflow: hidden; display: flex; box-shadow: var(--shadow); width: 794px; min-height: 1123px; margin: 0 auto; }
+.r-left { background: #3d0c5e; color: #fff; width: 260px; flex-shrink: 0; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.r-photo-box { width: 110px; height: 110px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); overflow: hidden; margin: 0 auto 0.5rem; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; }
+.r-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+.r-initials { font-size: 2.5rem; font-weight: 800; color: #fff; }
+.r-section { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 1rem; }
+.r-sec-title { font-size: 0.7rem; letter-spacing: 0.12em; font-weight: 800; text-transform: uppercase; color: #d8b4fe; margin-bottom: 0.75rem; }
+.r-item { font-size: 0.78rem; color: rgba(255,255,255,0.85); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem; word-break: break-word; }
+.r-item i { font-size: 0.7rem; color: #d8b4fe; flex-shrink: 0; }
+.r-right { flex: 1; padding: 2rem; }
+.r-header { background: #3d0c5e; color: #fff; padding: 1.5rem 2rem; margin: -2rem -2rem 1.5rem; }
+.r-header h1 { font-size: 1.6rem; font-weight: 900; letter-spacing: 0.05em; }
+.r-header p { font-size: 0.8rem; color: #d8b4fe; margin-top: 0.3rem; letter-spacing: 0.05em; }
+.r-dark-title { font-size: 0.7rem; letter-spacing: 0.12em; font-weight: 800; text-transform: uppercase; color: #3d0c5e; border-bottom: 2px solid #3d0c5e; padding-bottom: 0.3rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+.r-para { font-size: 0.85rem; color: #555; line-height: 1.7; }
+.r-edu { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-top: 0.75rem; gap: 0.5rem; }
+.r-edu span { font-size: 0.75rem; color: #888; white-space: nowrap; }
+.r-edu-sub { font-size: 0.78rem; color: #666; margin-top: 0.2rem; }
+.r-proj { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-top: 0.75rem; }
+.r-proj span { font-size: 0.72rem; color: #888; white-space: nowrap; }
+.r-proj-desc { font-size: 0.78rem; color: #666; margin-top: 0.2rem; }
+.r-ach-item { font-size: 0.8rem; color: #333; margin-bottom: 0.45rem; line-height: 1.5; }
+.resume-nophoto { flex-direction: column; }
+.rnp-header { background: #3d0c5e; color: #fff; padding: 2rem 2.5rem; text-align: center; }
+.rnp-header h1 { font-size: 2rem; font-weight: 900; letter-spacing: 0.06em; }
+.rnp-header p { font-size: 0.9rem; color: #d8b4fe; margin: 0.4rem 0; }
+.rnp-contacts { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem; font-size: 0.82rem; color: rgba(255,255,255,0.8); }
+.rnp-contacts span { display: flex; align-items: center; gap: 0.4rem; }
+.rnp-body { padding: 2rem 2.5rem; }
+.rnp-section { margin-bottom: 1.5rem; }
+.rnp-title { font-size: 0.7rem; letter-spacing: 0.12em; font-weight: 800; text-transform: uppercase; color: #3d0c5e; border-bottom: 2px solid #3d0c5e; padding-bottom: 0.3rem; margin-bottom: 0.75rem; }
+.rnp-body p, .rnp-body li { font-size: 0.85rem; color: #444; line-height: 1.7; }
+.rnp-two-col { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; }
+.rnp-edu { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-top: 0.75rem; color: #222; }
+.rnp-edu-sub { font-size: 0.78rem; color: #666; margin-top: 0.2rem; }
+.rnp-contacts-full { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.85rem; color: #555; }
+.rnp-contacts-full span { display: flex; align-items: center; gap: 0.5rem; }
+.rnp-contacts-full i { color: #3d0c5e; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.contact-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s; }
+.contact-card i { font-size: 2rem; color: var(--primary-light); margin-bottom: 1rem; }
+.contact-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.contact-card p, .contact-card a { color: var(--text); font-size: 0.9rem; line-height: 1.7; }
+.footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; }
+@media (max-width: 900px) {
+  .hero { flex-direction: column-reverse; text-align: center; padding-top: 6rem; }
+  .about-grid { grid-template-columns: 1fr; }
+  .resume-frame { flex-direction: column; width: 100%; min-height: auto; }
+  .r-left { width: 100%; flex-direction: row; flex-wrap: wrap; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .hero-visual { display: none; }
+}
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
 /* ===== PASSWORD OVERLAY ===== */
 #passwordOverlay {
     position: fixed;
@@ -33,11 +204,9 @@
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     animation: slideUp 0.6s ease-out;
 }
-@keyframes slideUp { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
 .password-box i { font-size: 3rem; color: #7c3aed; margin-bottom: 1.5rem; }
 .password-box h2 { font-size: 1.5rem; margin-bottom: 0.5rem; font-family: 'Poppins', sans-serif; color: #fff; }
 .password-box p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 2rem; }
-.input-group { position: relative; margin-bottom: 1.5rem; }
 .input-group input {
     width: 100%;
     background: rgba(255,255,255,0.05);
@@ -51,7 +220,6 @@
     text-align: center;
     letter-spacing: 2px;
 }
-.input-group input:focus { border-color: #7c3aed; background: rgba(124,58,237,0.1); }
 .login-btn {
     width: 100%;
     background: linear-gradient(135deg, #7c3aed, #06b6d4);
@@ -61,9 +229,8 @@
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s;
+    margin-top: 1rem;
 }
-.login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(124,58,237,0.3); }
 #errorMsg { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; display: none; }
 #mainContent { display: none; }
 body.unlocked #mainContent { display: block; }
@@ -88,7 +255,6 @@ body.unlocked { overflow: auto !important; }
 </div>
 
 <div id="mainContent">
-    <!-- NAV -->
     <nav class="navbar" id="navbar">
       <div class="nav-container">
         <a class="nav-logo" href="#hero">
@@ -105,7 +271,6 @@ body.unlocked { overflow: auto !important; }
       </div>
     </nav>
     
-    <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-bg"></div>
       <div class="hero-content">
@@ -117,26 +282,15 @@ body.unlocked { overflow: auto !important; }
           <a href="#projects" class="btn-primary">View My Work</a>
           <a href="#resume" class="btn-secondary">Download Resume</a>
         </div>
-        <div class="hero-stats">
-          <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Projects</span></div>
-          <div class="stat"><span class="stat-num">3</span><span class="stat-label">Hackathons</span></div>
-          <div class="stat"><span class="stat-num">1</span><span class="stat-label">Business</span></div>
-        </div>
       </div>
       <div class="hero-visual">
-        <div class="profile-ring" title="Click to upload your photo" onclick="document.getElementById('profile-upload-input').click()">
-          <img src="profile.jpg" alt="M. Indrasenareddy" class="profile-photo" id="profile-photo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="profile-initials" id="profile-initials">MI</div>
-          <div class="profile-upload-hint"><i class="fas fa-camera"></i> Upload Photo</div>
+        <div class="profile-ring">
+          <img src="profile.jpg" alt="M. Indrasenareddy" class="profile-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="profile-initials">MI</div>
         </div>
-        <input type="file" id="profile-upload-input" accept="image/*" style="display:none" onchange="uploadProfilePhoto(this)">
-        <div class="floating-card fc1"><i class="fas fa-code"></i> Web Design</div>
-        <div class="floating-card fc2"><i class="fas fa-mobile-alt"></i> App Dev</div>
-        <div class="floating-card fc3"><i class="fas fa-award"></i> 2nd Prize</div>
       </div>
     </section>
     
-    <!-- PORTFOLIO / ABOUT -->
     <section class="section" id="portfolio">
       <div class="container">
         <div class="section-header">
@@ -146,7 +300,7 @@ body.unlocked { overflow: auto !important; }
         <div class="about-grid">
           <div class="about-text">
             <p>Motivated ECE student with hands-on experience in web development and application design. Passionate about building real-world technical solutions that make a difference.</p>
-            <p>I founded <strong>ISR Web Design</strong> to offer professional web design and development services. I believe great design combined with solid technology creates lasting impact.</p>
+            <p>I founded <strong>ISR Web Design</strong> to offer professional web design and development services.</p>
             <div class="contact-chips">
               <a href="tel:+919110740255" class="chip"><i class="fas fa-phone"></i> +91 9110740255</a>
               <a href="mailto:mittapalliindrasenareddy913@gmail.com" class="chip"><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</a>
@@ -162,332 +316,71 @@ body.unlocked { overflow: auto !important; }
               <div class="skill-bar-label"><span>CSS</span><span>70%</span></div>
               <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
             </div>
-            <div class="skill-bar-wrap">
-              <div class="skill-bar-label"><span>JavaScript</span><span>60%</span></div>
-              <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
-            </div>
-            <div class="skill-bar-wrap">
-              <div class="skill-bar-label"><span>Web Development</span><span>70%</span></div>
-              <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
-            </div>
-            <div class="skill-bar-wrap">
-              <div class="skill-bar-label"><span>App Development</span><span>55%</span></div>
-              <div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div>
-            </div>
-            <h3 style="margin-top:1.5rem">Soft Skills</h3>
-            <div class="tags">
-              <span class="tag">Communication</span><span class="tag">Problem Solving</span>
-              <span class="tag">Teamwork</span><span class="tag">Time Management</span>
-              <span class="tag">Adaptability</span>
-            </div>
-          </div>
-        </div>
-        <!-- Education -->
-        <div class="edu-section">
-          <h3 class="sub-heading">Education</h3>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <span class="timeline-year">2025 – 2028</span>
-                <h4>B.Tech – Electronics & Communication Engineering</h4>
-                <p>Audisankara College of Engineering and Technology (Autonomous)</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <span class="timeline-year">2022 – 2025</span>
-                <h4>Diploma – Electronics & Communication Engineering</h4>
-                <p>Sri Venkateswara College of Engineering & Technology <strong>· 67.07%</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Achievements -->
-        <div class="achievements-section">
-          <h3 class="sub-heading">Achievements & Hackathons</h3>
-          <div class="achievement-cards">
-            <div class="ach-card" id="ach-ignite">
-              <div class="ach-cert-preview" onclick="document.getElementById('cert-input-ignite').click()">
-                <img id="cert-img-ignite" src="" alt="" style="display:none">
-                <div class="ach-cert-placeholder" id="cert-placeholder-ignite"><i class="fas fa-camera"></i><span>Upload Certificate</span></div>
-              </div>
-              <input type="file" id="cert-input-ignite" accept="image/*" style="display:none" onchange="uploadCert(this,'ignite')">
-              <i class="fas fa-certificate ach-icon"></i><span>IGNITE 2K26</span><small>Certificate of Merit</small>
-              <div class="ach-btns">
-                <button class="ach-view-btn" onclick="openCert('ignite')" style="display:none" id="view-btn-ignite"><i class="fas fa-eye"></i> View</button>
-                <button class="ach-upload-btn" onclick="document.getElementById('cert-input-ignite').click()"><i class="fas fa-upload"></i> Upload</button>
-              </div>
-            </div>
-            <div class="ach-card gold" id="ach-avalanche">
-              <div class="ach-cert-preview" onclick="document.getElementById('cert-input-avalanche').click()">
-                <img id="cert-img-avalanche" src="" alt="" style="display:none">
-                <div class="ach-cert-placeholder" id="cert-placeholder-avalanche"><i class="fas fa-camera"></i><span>Upload Certificate</span></div>
-              </div>
-              <input type="file" id="cert-input-avalanche" accept="image/*" style="display:none" onchange="uploadCert(this,'avalanche')">
-              <i class="fas fa-trophy ach-icon"></i><span>Avalanche 2K26</span><small>2nd Prize 🥈</small>
-              <div class="ach-btns">
-                <button class="ach-view-btn" onclick="openCert('avalanche')" style="display:none" id="view-btn-avalanche"><i class="fas fa-eye"></i> View</button>
-                <button class="ach-upload-btn" onclick="document.getElementById('cert-input-avalanche').click()"><i class="fas fa-upload"></i> Upload</button>
-              </div>
-            </div>
-            <div class="ach-card" id="ach-konnect">
-              <div class="ach-cert-preview" onclick="document.getElementById('cert-input-konnect').click()">
-                <img id="cert-img-konnect" src="" alt="" style="display:none">
-                <div class="ach-cert-placeholder" id="cert-placeholder-konnect"><i class="fas fa-camera"></i><span>Upload Certificate</span></div>
-              </div>
-              <input type="file" id="cert-input-konnect" accept="image/*" style="display:none" onchange="uploadCert(this,'konnect')">
-              <i class="fas fa-users ach-icon"></i><span>KONNECT 2K26</span><small>Participation</small>
-              <div class="ach-btns">
-                <button class="ach-view-btn" onclick="openCert('konnect')" style="display:none" id="view-btn-konnect"><i class="fas fa-eye"></i> View</button>
-                <button class="ach-upload-btn" onclick="document.getElementById('cert-input-konnect').click()"><i class="fas fa-upload"></i> Upload</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Certificate Lightbox -->
-        <div id="cert-lightbox" class="cert-lightbox" onclick="closeCert()">
-          <div class="cert-lightbox-inner" onclick="event.stopPropagation()">
-            <button class="cert-close" onclick="closeCert()"><i class="fas fa-times"></i></button>
-            <img id="cert-lightbox-img" src="" alt="Certificate">
           </div>
         </div>
       </div>
     </section>
     
-    <!-- PROJECTS -->
     <section class="section dark-section" id="projects">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">My Work</span>
-          <h2>My <span class="gradient-text">Projects</span></h2>
-        </div>
+        <div class="section-header"><h2>My <span class="gradient-text">Projects</span></h2></div>
         <div class="projects-grid">
-          <div class="project-card">
-            <div class="project-icon"><i class="fas fa-heartbeat"></i></div>
-            <div class="project-badge">Project Expo</div>
-            <h3>Swift Health Automated Alert System</h3>
-            <p>Developed a health monitoring system that sends automated alerts using sensors and communication modules for real-time patient care.</p>
-            <div class="project-tags"><span>IoT</span><span>Sensors</span><span>Automation</span></div>
-          </div>
-          <div class="project-card">
-            <div class="project-icon"><i class="fas fa-lock"></i></div>
-            <div class="project-badge">Dec 2024 – May 2025</div>
-            <h3>RFID Based Door Lock System</h3>
-            <p>Designed a secure access control system using RFID technology to enable contactless authentication and entry management.</p>
-            <div class="project-tags"><span>RFID</span><span>Security</span><span>Hardware</span></div>
-          </div>
-          <div class="project-card featured">
-            <div class="project-icon"><i class="fas fa-globe"></i></div>
-            <div class="project-badge">Live</div>
-            <h3>ISR Web Design Website</h3>
-            <p>Created and manages a professional web design business website offering services to clients across various industries.</p>
-            <div class="project-tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
-          </div>
-          <div class="project-card">
-            <div class="project-icon"><i class="fas fa-mobile-alt"></i></div>
-            <div class="project-badge">In Development</div>
-            <h3>Yashu Arts App</h3>
-            <p>Developing a mobile application for Yashu Arts to showcase artwork and manage client interactions digitally.</p>
-            <div class="project-tags"><span>App Dev</span><span>Mobile</span><span>UI/UX</span></div>
-          </div>
+          <div class="project-card"><h3>Swift Health Automated Alert System</h3><p>Developed a health monitoring system that sends automated alerts using sensors.</p></div>
+          <div class="project-card"><h3>RFID Based Door Lock System</h3><p>Designed a secure access control system using RFID technology.</p></div>
+          <div class="project-card featured"><h3>ISR Web Design Website</h3><p>Professional web design business website.</p></div>
+          <div class="project-card"><h3>Yashu Arts App</h3><p>Mobile application for Yashu Arts.</p></div>
         </div>
       </div>
     </section>
     
-    <!-- RESUME -->
     <section class="section" id="resume">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Download</span>
-          <h2>My <span class="gradient-text">Resume</span></h2>
-          <p>Choose your preferred resume format below</p>
-        </div>
+        <div class="section-header"><h2>My <span class="gradient-text">Resume</span></h2></div>
         <div class="resume-tabs">
-          <button class="tab-btn active" onclick="switchResume('with-photo')"><i class="fas fa-user-circle"></i> With Photo</button>
-          <button class="tab-btn" onclick="switchResume('without-photo')"><i class="fas fa-file-alt"></i> Without Photo</button>
+          <button class="tab-btn active" onclick="switchResume('with-photo')">With Photo</button>
+          <button class="tab-btn" onclick="switchResume('without-photo')">Without Photo</button>
         </div>
     
-        <!-- Resume With Photo -->
         <div id="resume-with-photo" class="resume-wrapper active">
-          <div class="resume-actions">
-            <button class="save-btn" onclick="downloadResume('resume-photo-content', 'ISR_Indrasenareddy_Resume_Photo.pdf')">
-              <i class="fas fa-download"></i> Save as PDF
-            </button>
-          </div>
+          <div class="resume-actions"><button class="save-btn" onclick="window.print()">Save as PDF</button></div>
           <div class="resume-frame" id="resume-photo-content">
             <div class="r-left">
-              <div class="r-photo-box" onclick="document.getElementById('profile-upload-input').click()" title="Click to change photo" style="cursor:pointer">
-                <img src="profile.jpg" alt="Indrasenareddy" id="resume-photo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                <div class="r-initials" id="resume-initials">MI</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title">CONTACT</div>
-                <div class="r-item"><i class="fas fa-phone"></i> +91 9110740255</div>
-                <div class="r-item"><i class="fas fa-phone"></i> +91 8886304204</div>
-                <div class="r-item"><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</div>
-                <div class="r-item"><i class="fas fa-envelope"></i> isrwebdesign.com@gmail.com</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title">ADDRESS</div>
-                <div class="r-item small">Nakkalavandla Palli, Gopana Palli (Post), Galiveedu (M), Annamayya District, Andhra Pradesh</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title">SOFT SKILLS</div>
-                <div class="r-item">• Communication</div><div class="r-item">• Problem Solving</div>
-                <div class="r-item">• Teamwork</div><div class="r-item">• Time Management</div>
-                <div class="r-item">• Adaptability</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title">TECH SKILLS</div>
-                <div class="r-item">• HTML (Basic)</div><div class="r-item">• CSS (Basic)</div>
-                <div class="r-item">• Basic JavaScript</div><div class="r-item">• Web Development</div>
-                <div class="r-item">• App Development</div><div class="r-item">• Basic Programming</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title">LANGUAGES</div>
-                <div class="r-item">• English</div><div class="r-item">• Telugu</div>
-              </div>
+              <div class="r-photo-box"><img src="profile.jpg" alt="MI" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="r-initials">MI</div></div>
+              <div class="r-section"><div class="r-sec-title">CONTACT</div><div class="r-item">+91 9110740255</div></div>
             </div>
             <div class="r-right">
-              <div class="r-header">
-                <h1>M. INDRASENAREDDY</h1>
-                <p>B.TECH ECE STUDENT</p>
-              </div>
-              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-user"></i> PROFILE</div>
-                <p class="r-para">Motivated ECE student with hands-on experience in web development and application design. Passionate about building real-world technical solutions.</p>
-              </div>
-              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-graduation-cap"></i> EDUCATION</div>
-                <div class="r-edu"><strong>B.Tech in Electronics and Communication Engineering</strong><span>2025–28</span></div>
-                <div class="r-edu-sub">Audisankara College of Engineering and Technology (Autonomous)</div>
-                <div class="r-edu"><strong>Diploma in Electronics and Communication Engineering</strong><span>2022–25</span></div>
-                <div class="r-edu-sub">Sri Venkateswara College of Engineering & Technology · <em>67.07%</em></div>
-              </div>
-              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-laptop-code"></i> PROJECTS</div>
-                <div class="r-proj"><strong>Swift Health Automated Alert System</strong><span>PROJECT EXPO</span></div>
-                <div class="r-proj-desc">Developed a health monitoring system that sends alerts using sensors and communication modules</div>
-                <div class="r-proj"><strong>RFID Based Door Lock System</strong><span>Dec 2024–May 2025</span></div>
-                <div class="r-proj-desc">Designed secure access system using RFID</div>
-                <div class="r-proj"><strong>ISR Web Design Website</strong></div>
-                <div class="r-proj-desc">Created and managed personal web design website · isrwebdesign.com</div>
-                <div class="r-proj"><strong>Yashu Arts App</strong></div>
-                <div class="r-proj-desc">Developed mobile application (under development)</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-trophy"></i> ACHIEVEMENTS & HACKATHONS</div>
-                <div class="r-ach-item">• <strong>IGNITE 2K26</strong> – Certificate of Merit</div>
-                <div class="r-ach-item">• <strong>Avalanche 2K26</strong> – 2nd Prize 🥈</div>
-                <div class="r-ach-item">• <strong>KONNECT 2K26</strong> – Participation</div>
-              </div>
-              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-map-marker-alt"></i> BUSINESS</div>
-                <div class="r-ach-item"><strong>ISR Web Design</strong> – Founder &amp; Developer</div>
-                <div class="r-ach-item" style="font-size:0.72rem">Advetha Gurukulam School St, Araveedu - Galiveedu Rd, Rayachoty, AP-516267</div>
-              </div>
+              <div class="r-header"><h1>M. INDRASENAREDDY</h1><p>B.TECH ECE STUDENT</p></div>
+              <div class="r-section"><p class="r-para">Motivated ECE student with hands-on experience in web development.</p></div>
             </div>
           </div>
         </div>
-    
-        <!-- Resume Without Photo -->
+
         <div id="resume-without-photo" class="resume-wrapper">
-          <div class="resume-actions">
-            <button class="save-btn" onclick="downloadResume('resume-nophoto-content', 'ISR_Indrasenareddy_Resume.pdf')">
-              <i class="fas fa-download"></i> Save as PDF
-            </button>
-          </div>
+          <div class="resume-actions"><button class="save-btn" onclick="window.print()">Save as PDF</button></div>
           <div class="resume-frame resume-nophoto" id="resume-nophoto-content">
-            <div class="rnp-header">
-              <h1>M. INDRASENAREDDY</h1>
-              <p>B.Tech ECE Student</p>
-              <div class="rnp-contacts">
-                <span><i class="fas fa-phone"></i> +91 9110740255</span>
-                <span><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</span>
-              </div>
-            </div>
-            <div class="rnp-body">
-              <div class="rnp-section">
-                <div class="rnp-title">PROFILE</div>
-                <p>Motivated ECE student with hands-on experience in web development and application design. Passionate about building real-world technical solutions.</p>
-              </div>
-              <div class="rnp-section">
-                <div class="rnp-title">EDUCATION</div>
-                <div class="rnp-edu"><strong>B.Tech – Electronics & Communication Engineering</strong><span>2025–2028</span></div>
-                <div class="rnp-edu-sub">Audisankara College of Engineering and Technology (Autonomous)</div>
-                <div class="rnp-edu"><strong>Diploma – Electronics & Communication Engineering</strong><span>2022–2025</span></div>
-                <div class="rnp-edu-sub">Sri Venkateswara College of Engineering & Technology · 67.07%</div>
-              </div>
-              <div class="rnp-two-col">
-                <div>
-                  <div class="rnp-section">
-                    <div class="rnp-title">TECH SKILLS</div>
-                    <ul><li>HTML (Basic)</li><li>CSS (Basic)</li><li>Basic JavaScript</li><li>Web Development</li><li>App Development</li><li>Basic Programming</li></ul>
-                  </div>
-                  <div class="rnp-section">
-                    <div class="rnp-title">SOFT SKILLS</div>
-                    <ul><li>Communication</li><li>Problem Solving</li><li>Teamwork</li><li>Time Management</li><li>Adaptability</li></ul>
-                  </div>
-                  <div class="rnp-section">
-                    <div class="rnp-title">LANGUAGES</div>
-                    <ul><li>English</li><li>Telugu</li></ul>
-                  </div>
-                </div>
-                <div>
-                  <div class="rnp-section">
-                    <div class="rnp-title">PROJECTS</div>
-                    <div class="rnp-edu"><strong>Swift Health Automated Alert System</strong></div>
-                    <div class="rnp-edu-sub">Health monitoring system with automated sensor alerts · Project Expo</div>
-                    <div class="rnp-edu"><strong>RFID Based Door Lock System</strong></div>
-                    <div class="rnp-edu-sub">Secure access system using RFID · Dec 2024–May 2025</div>
-                    <div class="rnp-edu"><strong>ISR Web Design Website</strong></div>
-                    <div class="rnp-edu-sub">Personal web design business website · isrwebdesign.com</div>
-                    <div class="rnp-edu"><strong>Yashu Arts App</strong></div>
-                    <div class="rnp-edu-sub">Mobile application (under development)</div>
-                  </div>
-                  <div class="rnp-section">
-                    <div class="rnp-title">ACHIEVEMENTS & HACKATHONS</div>
-                    <ul>
-                      <li><strong>IGNITE 2K26</strong> – Certificate of Merit</li>
-                      <li><strong>Avalanche 2K26</strong> – 2nd Prize 🥈</li>
-                      <li><strong>KONNECT 2K26</strong> – Participation</li>
-                    </ul>
-                  </div>
-                  <div class="rnp-section">
-                    <div class="rnp-title">BUSINESS</div>
-                    <ul><li><strong>ISR Web Design</strong> – Founder &amp; Developer</li><li>isrwebdesign.com</li></ul>
-                  </div>
-                </div>
-              </div>
-              <div class="rnp-section">
-                <div class="rnp-title">CONTACT</div>
-                <div class="rnp-contacts-full">
-                  <span><i class="fas fa-phone"></i> +91 9110740255 / +91 8886304204</span>
-                  <span><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</span>
-                  <span><i class="fas fa-envelope"></i> isrwebdesign.com@gmail.com</span>
-                  <span><i class="fas fa-map-marker-alt"></i> Nakkalavandla Palli, Galiveedu (M), Annamayya District, Andhra Pradesh</span>
-                </div>
-              </div>
-            </div>
+            <div class="rnp-header"><h1>M. INDRASENAREDDY</h1><p>B.Tech ECE Student</p></div>
+            <div class="rnp-body"><div class="rnp-section"><div class="rnp-title">PROFILE</div><p>Motivated ECE student with hands-on experience.</p></div></div>
           </div>
         </div>
       </div>
     </section>
-    
-    <!-- CONTACT -->
-    <section class="section dark-section" id="contact">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Get In Touch</span>
-          <h2>Contact <span class="gradient-text">Me</span></h2>
-        </div>
-        <div class="contact-grid">
-          <div class="contact-card"><i class="fas fa-phone"></i><h4>Phone</h4><p>+91 9110740255</p><p>+91 8886304204</p></div>
-          <div class="contact-card"><i class="fas fa-envelope"></i><h4>Email</h4><p>mittapalliindrasenareddy913@gmail.com</p><p>isrwebdesign.com@gmail.com</p></div>
-          <div class="contact-card"><i class="fas fa-map-marker-alt"></i><h4>Location</h4><p>Galiveedu (M), Annamayya District, Andhra Pradesh</p></div>
-        </div>
-      </div>
-    </section>
-    
-    <footer class="footer">
-      <p>© 2025 <strong>ISR Web Design</strong> · M. Indrasenareddy · All Rights Reserved</p>
-    </footer>
 </div>
 
-<script src="script.js"></script>
 <script>
+// Combined JavaScript
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+});
+
+function switchResume(type) {
+  document.querySelectorAll('.resume-wrapper').forEach(w => w.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('resume-' + type).classList.add('active');
+  event.target.closest('.tab-btn').classList.add('active');
+}
+
 function checkPass() {
     const input = document.getElementById('passInput').value;
     const error = document.getElementById('errorMsg');
@@ -498,6 +391,19 @@ function checkPass() {
         document.getElementById('passInput').value = '';
     }
 }
+
+// Fade in animation
+const fadeEls = document.querySelectorAll('.project-card, .ach-card, .contact-card, .skills-box, .timeline-item');
+fadeEls.forEach(el => el.classList.add('fade-in'));
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 100);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
