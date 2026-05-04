@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M. Indrasenareddy | ISR Web Design Portfolio (Protected)</title>
+<meta name="description" content="Portfolio of M. Indrasenareddy - Web Designer & Developer, ISR Web Design">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>
+/* ===== PASSWORD OVERLAY ===== */
+#passwordOverlay {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0f;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+.password-box {
+    background: rgba(22, 22, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slideUp 0.6s ease-out;
+}
+@keyframes slideUp { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+.password-box i { font-size: 3rem; color: #7c3aed; margin-bottom: 1.5rem; }
+.password-box h2 { font-size: 1.5rem; margin-bottom: 0.5rem; font-family: 'Poppins', sans-serif; color: #fff; }
+.password-box p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 2rem; }
+.input-group { position: relative; margin-bottom: 1.5rem; }
+.input-group input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+    text-align: center;
+    letter-spacing: 2px;
+}
+.input-group input:focus { border-color: #7c3aed; background: rgba(124,58,237,0.1); }
+.login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(124,58,237,0.3); }
+#errorMsg { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; display: none; }
+#mainContent { display: none; }
+body.unlocked #mainContent { display: block; }
+body.unlocked #passwordOverlay { display: none; }
+body.unlocked { overflow: auto !important; }
+</style>
+</head>
+<body style="overflow: hidden;">
+
+<!-- PASSWORD PROTECTION OVERLAY -->
+<div id="passwordOverlay">
+    <div class="password-box">
+        <i class="fas fa-user-lock"></i>
+        <h2>ISR Web Design</h2>
+        <p>Private Portfolio. Please enter password to continue.</p>
+        <div class="input-group">
+            <input type="password" id="passInput" placeholder="PASSWORD" onkeydown="if(event.key==='Enter') checkPass()">
+        </div>
+        <button class="login-btn" onclick="checkPass()">UNLOCK PROFILE</button>
+        <p id="errorMsg">Incorrect Password. Try again!</p>
+    </div>
+</div>
+
+<div id="mainContent">
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a class="nav-logo" href="#hero">
+          <img src="isr_webdesign_logo_1.png" alt="ISR Logo" class="logo-img">
+          <span>ISR Web Design</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+          <li><a href="#projects" class="nav-link">My Projects</a></li>
+          <li><a href="#resume" class="nav-link">Resume</a></li>
+          <li><a href="#contact" class="nav-link btn-nav">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+      </div>
+    </nav>
+    
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">✦ Available for Projects</div>
+        <h1 class="hero-title">M. <span class="gradient-text">Indrasenareddy</span></h1>
+        <p class="hero-sub">Web Designer & Developer · App Developer · ECE Student</p>
+        <p class="hero-desc">Building real-world digital solutions through creative design and development. Founder of <strong>ISR Web Design</strong>.</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn-primary">View My Work</a>
+          <a href="#resume" class="btn-secondary">Download Resume</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Projects</span></div>
+          <div class="stat"><span class="stat-num">3</span><span class="stat-label">Hackathons</span></div>
+          <div class="stat"><span class="stat-num">1</span><span class="stat-label">Business</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="profile-ring" title="Click to upload your photo" onclick="document.getElementById('profile-upload-input').click()">
+          <img src="profile.jpg" alt="M. Indrasenareddy" class="profile-photo" id="profile-photo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="profile-initials" id="profile-initials">MI</div>
+          <div class="profile-upload-hint"><i class="fas fa-camera"></i> Upload Photo</div>
+        </div>
+        <input type="file" id="profile-upload-input" accept="image/*" style="display:none" onchange="uploadProfilePhoto(this)">
+        <div class="floating-card fc1"><i class="fas fa-code"></i> Web Design</div>
+        <div class="floating-card fc2"><i class="fas fa-mobile-alt"></i> App Dev</div>
+        <div class="floating-card fc3"><i class="fas fa-award"></i> 2nd Prize</div>
+      </div>
+    </section>
+    
+    <!-- PORTFOLIO / ABOUT -->
+    <section class="section" id="portfolio">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">About Me</span>
+          <h2>My <span class="gradient-text">Portfolio</span></h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>Motivated ECE student with hands-on experience in web development and application design. Passionate about building real-world technical solutions that make a difference.</p>
+            <p>I founded <strong>ISR Web Design</strong> to offer professional web design and development services. I believe great design combined with solid technology creates lasting impact.</p>
+            <div class="contact-chips">
+              <a href="tel:+919110740255" class="chip"><i class="fas fa-phone"></i> +91 9110740255</a>
+              <a href="mailto:mittapalliindrasenareddy913@gmail.com" class="chip"><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</a>
+            </div>
+          </div>
+          <div class="skills-box">
+            <h3>Tech Skills</h3>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label"><span>HTML</span><span>75%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label"><span>CSS</span><span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label"><span>JavaScript</span><span>60%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label"><span>Web Development</span><span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label"><span>App Development</span><span>55%</span></div>
+              <div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div>
+            </div>
+            <h3 style="margin-top:1.5rem">Soft Skills</h3>
+            <div class="tags">
+              <span class="tag">Communication</span><span class="tag">Problem Solving</span>
+              <span class="tag">Teamwork</span><span class="tag">Time Management</span>
+              <span class="tag">Adaptability</span>
+            </div>
+          </div>
+        </div>
+        <!-- Education -->
+        <div class="edu-section">
+          <h3 class="sub-heading">Education</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <span class="timeline-year">2025 – 2028</span>
+                <h4>B.Tech – Electronics & Communication Engineering</h4>
+                <p>Audisankara College of Engineering and Technology (Autonomous)</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <span class="timeline-year">2022 – 2025</span>
+                <h4>Diploma – Electronics & Communication Engineering</h4>
+                <p>Sri Venkateswara College of Engineering & Technology <strong>· 67.07%</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Achievements -->
+        <div class="achievements-section">
+          <h3 class="sub-heading">Achievements & Hackathons</h3>
+          <div class="achievement-cards">
+            <div class="ach-card" id="ach-ignite">
+              <div class="ach-cert-preview" onclick="document.getElementById('cert-input-ignite').click()">
+                <img id="cert-img-ignite" src="" alt="" style="display:none">
+                <div class="ach-cert-placeholder" id="cert-placeholder-ignite"><i class="fas fa-camera"></i><span>Upload Certificate</span></div>
+              </div>
+              <input type="file" id="cert-input-ignite" accept="image/*" style="display:none" onchange="uploadCert(this,'ignite')">
+              <i class="fas fa-certificate ach-icon"></i><span>IGNITE 2K26</span><small>Certificate of Merit</small>
+              <div class="ach-btns">
+                <button class="ach-view-btn" onclick="openCert('ignite')" style="display:none" id="view-btn-ignite"><i class="fas fa-eye"></i> View</button>
+                <button class="ach-upload-btn" onclick="document.getElementById('cert-input-ignite').click()"><i class="fas fa-upload"></i> Upload</button>
+              </div>
+            </div>
+            <div class="ach-card gold" id="ach-avalanche">
+              <div class="ach-cert-preview" onclick="document.getElementById('cert-input-avalanche').click()">
+                <img id="cert-img-avalanche" src="" alt="" style="display:none">
+                <div class="ach-cert-placeholder" id="cert-placeholder-avalanche"><i class="fas fa-camera"></i><span>Upload Certificate</span></div>
+              </div>
+              <input type="file" id="cert-input-avalanche" accept="image/*" style="display:none" onchange="uploadCert(this,'avalanche')">
+              <i class="fas fa-trophy ach-icon"></i><span>Avalanche 2K26</span><small>2nd Prize 🥈</small>
+              <div class="ach-btns">
+                <button class="ach-view-btn" onclick="openCert('avalanche')" style="display:none" id="view-btn-avalanche"><i class="fas fa-eye"></i> View</button>
+                <button class="ach-upload-btn" onclick="document.getElementById('cert-input-avalanche').click()"><i class="fas fa-upload"></i> Upload</button>
+              </div>
+            </div>
+            <div class="ach-card" id="ach-konnect">
+              <div class="ach-cert-preview" onclick="document.getElementById('cert-input-konnect').click()">
+                <img id="cert-img-konnect" src="" alt="" style="display:none">
+                <div class="ach-cert-placeholder" id="cert-placeholder-konnect"><i class="fas fa-camera"></i><span>Upload Certificate</span></div>
+              </div>
+              <input type="file" id="cert-input-konnect" accept="image/*" style="display:none" onchange="uploadCert(this,'konnect')">
+              <i class="fas fa-users ach-icon"></i><span>KONNECT 2K26</span><small>Participation</small>
+              <div class="ach-btns">
+                <button class="ach-view-btn" onclick="openCert('konnect')" style="display:none" id="view-btn-konnect"><i class="fas fa-eye"></i> View</button>
+                <button class="ach-upload-btn" onclick="document.getElementById('cert-input-konnect').click()"><i class="fas fa-upload"></i> Upload</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Certificate Lightbox -->
+        <div id="cert-lightbox" class="cert-lightbox" onclick="closeCert()">
+          <div class="cert-lightbox-inner" onclick="event.stopPropagation()">
+            <button class="cert-close" onclick="closeCert()"><i class="fas fa-times"></i></button>
+            <img id="cert-lightbox-img" src="" alt="Certificate">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- PROJECTS -->
+    <section class="section dark-section" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">My Work</span>
+          <h2>My <span class="gradient-text">Projects</span></h2>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-icon"><i class="fas fa-heartbeat"></i></div>
+            <div class="project-badge">Project Expo</div>
+            <h3>Swift Health Automated Alert System</h3>
+            <p>Developed a health monitoring system that sends automated alerts using sensors and communication modules for real-time patient care.</p>
+            <div class="project-tags"><span>IoT</span><span>Sensors</span><span>Automation</span></div>
+          </div>
+          <div class="project-card">
+            <div class="project-icon"><i class="fas fa-lock"></i></div>
+            <div class="project-badge">Dec 2024 – May 2025</div>
+            <h3>RFID Based Door Lock System</h3>
+            <p>Designed a secure access control system using RFID technology to enable contactless authentication and entry management.</p>
+            <div class="project-tags"><span>RFID</span><span>Security</span><span>Hardware</span></div>
+          </div>
+          <div class="project-card featured">
+            <div class="project-icon"><i class="fas fa-globe"></i></div>
+            <div class="project-badge">Live</div>
+            <h3>ISR Web Design Website</h3>
+            <p>Created and manages a professional web design business website offering services to clients across various industries.</p>
+            <div class="project-tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+          </div>
+          <div class="project-card">
+            <div class="project-icon"><i class="fas fa-mobile-alt"></i></div>
+            <div class="project-badge">In Development</div>
+            <h3>Yashu Arts App</h3>
+            <p>Developing a mobile application for Yashu Arts to showcase artwork and manage client interactions digitally.</p>
+            <div class="project-tags"><span>App Dev</span><span>Mobile</span><span>UI/UX</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- RESUME -->
+    <section class="section" id="resume">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Download</span>
+          <h2>My <span class="gradient-text">Resume</span></h2>
+          <p>Choose your preferred resume format below</p>
+        </div>
+        <div class="resume-tabs">
+          <button class="tab-btn active" onclick="switchResume('with-photo')"><i class="fas fa-user-circle"></i> With Photo</button>
+          <button class="tab-btn" onclick="switchResume('without-photo')"><i class="fas fa-file-alt"></i> Without Photo</button>
+        </div>
+    
+        <!-- Resume With Photo -->
+        <div id="resume-with-photo" class="resume-wrapper active">
+          <div class="resume-actions">
+            <button class="save-btn" onclick="downloadResume('resume-photo-content', 'ISR_Indrasenareddy_Resume_Photo.pdf')">
+              <i class="fas fa-download"></i> Save as PDF
+            </button>
+          </div>
+          <div class="resume-frame" id="resume-photo-content">
+            <div class="r-left">
+              <div class="r-photo-box" onclick="document.getElementById('profile-upload-input').click()" title="Click to change photo" style="cursor:pointer">
+                <img src="profile.jpg" alt="Indrasenareddy" id="resume-photo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div class="r-initials" id="resume-initials">MI</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title">CONTACT</div>
+                <div class="r-item"><i class="fas fa-phone"></i> +91 9110740255</div>
+                <div class="r-item"><i class="fas fa-phone"></i> +91 8886304204</div>
+                <div class="r-item"><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</div>
+                <div class="r-item"><i class="fas fa-envelope"></i> isrwebdesign.com@gmail.com</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title">ADDRESS</div>
+                <div class="r-item small">Nakkalavandla Palli, Gopana Palli (Post), Galiveedu (M), Annamayya District, Andhra Pradesh</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title">SOFT SKILLS</div>
+                <div class="r-item">• Communication</div><div class="r-item">• Problem Solving</div>
+                <div class="r-item">• Teamwork</div><div class="r-item">• Time Management</div>
+                <div class="r-item">• Adaptability</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title">TECH SKILLS</div>
+                <div class="r-item">• HTML (Basic)</div><div class="r-item">• CSS (Basic)</div>
+                <div class="r-item">• Basic JavaScript</div><div class="r-item">• Web Development</div>
+                <div class="r-item">• App Development</div><div class="r-item">• Basic Programming</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title">LANGUAGES</div>
+                <div class="r-item">• English</div><div class="r-item">• Telugu</div>
+              </div>
+            </div>
+            <div class="r-right">
+              <div class="r-header">
+                <h1>M. INDRASENAREDDY</h1>
+                <p>B.TECH ECE STUDENT</p>
+              </div>
+              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-user"></i> PROFILE</div>
+                <p class="r-para">Motivated ECE student with hands-on experience in web development and application design. Passionate about building real-world technical solutions.</p>
+              </div>
+              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-graduation-cap"></i> EDUCATION</div>
+                <div class="r-edu"><strong>B.Tech in Electronics and Communication Engineering</strong><span>2025–28</span></div>
+                <div class="r-edu-sub">Audisankara College of Engineering and Technology (Autonomous)</div>
+                <div class="r-edu"><strong>Diploma in Electronics and Communication Engineering</strong><span>2022–25</span></div>
+                <div class="r-edu-sub">Sri Venkateswara College of Engineering & Technology · <em>67.07%</em></div>
+              </div>
+              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-laptop-code"></i> PROJECTS</div>
+                <div class="r-proj"><strong>Swift Health Automated Alert System</strong><span>PROJECT EXPO</span></div>
+                <div class="r-proj-desc">Developed a health monitoring system that sends alerts using sensors and communication modules</div>
+                <div class="r-proj"><strong>RFID Based Door Lock System</strong><span>Dec 2024–May 2025</span></div>
+                <div class="r-proj-desc">Designed secure access system using RFID</div>
+                <div class="r-proj"><strong>ISR Web Design Website</strong></div>
+                <div class="r-proj-desc">Created and managed personal web design website · isrwebdesign.com</div>
+                <div class="r-proj"><strong>Yashu Arts App</strong></div>
+                <div class="r-proj-desc">Developed mobile application (under development)</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-trophy"></i> ACHIEVEMENTS & HACKATHONS</div>
+                <div class="r-ach-item">• <strong>IGNITE 2K26</strong> – Certificate of Merit</div>
+                <div class="r-ach-item">• <strong>Avalanche 2K26</strong> – 2nd Prize 🥈</div>
+                <div class="r-ach-item">• <strong>KONNECT 2K26</strong> – Participation</div>
+              </div>
+              <div class="r-section"><div class="r-sec-title r-dark-title"><i class="fas fa-map-marker-alt"></i> BUSINESS</div>
+                <div class="r-ach-item"><strong>ISR Web Design</strong> – Founder &amp; Developer</div>
+                <div class="r-ach-item" style="font-size:0.72rem">Advetha Gurukulam School St, Araveedu - Galiveedu Rd, Rayachoty, AP-516267</div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Resume Without Photo -->
+        <div id="resume-without-photo" class="resume-wrapper">
+          <div class="resume-actions">
+            <button class="save-btn" onclick="downloadResume('resume-nophoto-content', 'ISR_Indrasenareddy_Resume.pdf')">
+              <i class="fas fa-download"></i> Save as PDF
+            </button>
+          </div>
+          <div class="resume-frame resume-nophoto" id="resume-nophoto-content">
+            <div class="rnp-header">
+              <h1>M. INDRASENAREDDY</h1>
+              <p>B.Tech ECE Student</p>
+              <div class="rnp-contacts">
+                <span><i class="fas fa-phone"></i> +91 9110740255</span>
+                <span><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</span>
+              </div>
+            </div>
+            <div class="rnp-body">
+              <div class="rnp-section">
+                <div class="rnp-title">PROFILE</div>
+                <p>Motivated ECE student with hands-on experience in web development and application design. Passionate about building real-world technical solutions.</p>
+              </div>
+              <div class="rnp-section">
+                <div class="rnp-title">EDUCATION</div>
+                <div class="rnp-edu"><strong>B.Tech – Electronics & Communication Engineering</strong><span>2025–2028</span></div>
+                <div class="rnp-edu-sub">Audisankara College of Engineering and Technology (Autonomous)</div>
+                <div class="rnp-edu"><strong>Diploma – Electronics & Communication Engineering</strong><span>2022–2025</span></div>
+                <div class="rnp-edu-sub">Sri Venkateswara College of Engineering & Technology · 67.07%</div>
+              </div>
+              <div class="rnp-two-col">
+                <div>
+                  <div class="rnp-section">
+                    <div class="rnp-title">TECH SKILLS</div>
+                    <ul><li>HTML (Basic)</li><li>CSS (Basic)</li><li>Basic JavaScript</li><li>Web Development</li><li>App Development</li><li>Basic Programming</li></ul>
+                  </div>
+                  <div class="rnp-section">
+                    <div class="rnp-title">SOFT SKILLS</div>
+                    <ul><li>Communication</li><li>Problem Solving</li><li>Teamwork</li><li>Time Management</li><li>Adaptability</li></ul>
+                  </div>
+                  <div class="rnp-section">
+                    <div class="rnp-title">LANGUAGES</div>
+                    <ul><li>English</li><li>Telugu</li></ul>
+                  </div>
+                </div>
+                <div>
+                  <div class="rnp-section">
+                    <div class="rnp-title">PROJECTS</div>
+                    <div class="rnp-edu"><strong>Swift Health Automated Alert System</strong></div>
+                    <div class="rnp-edu-sub">Health monitoring system with automated sensor alerts · Project Expo</div>
+                    <div class="rnp-edu"><strong>RFID Based Door Lock System</strong></div>
+                    <div class="rnp-edu-sub">Secure access system using RFID · Dec 2024–May 2025</div>
+                    <div class="rnp-edu"><strong>ISR Web Design Website</strong></div>
+                    <div class="rnp-edu-sub">Personal web design business website · isrwebdesign.com</div>
+                    <div class="rnp-edu"><strong>Yashu Arts App</strong></div>
+                    <div class="rnp-edu-sub">Mobile application (under development)</div>
+                  </div>
+                  <div class="rnp-section">
+                    <div class="rnp-title">ACHIEVEMENTS & HACKATHONS</div>
+                    <ul>
+                      <li><strong>IGNITE 2K26</strong> – Certificate of Merit</li>
+                      <li><strong>Avalanche 2K26</strong> – 2nd Prize 🥈</li>
+                      <li><strong>KONNECT 2K26</strong> – Participation</li>
+                    </ul>
+                  </div>
+                  <div class="rnp-section">
+                    <div class="rnp-title">BUSINESS</div>
+                    <ul><li><strong>ISR Web Design</strong> – Founder &amp; Developer</li><li>isrwebdesign.com</li></ul>
+                  </div>
+                </div>
+              </div>
+              <div class="rnp-section">
+                <div class="rnp-title">CONTACT</div>
+                <div class="rnp-contacts-full">
+                  <span><i class="fas fa-phone"></i> +91 9110740255 / +91 8886304204</span>
+                  <span><i class="fas fa-envelope"></i> mittapalliindrasenareddy913@gmail.com</span>
+                  <span><i class="fas fa-envelope"></i> isrwebdesign.com@gmail.com</span>
+                  <span><i class="fas fa-map-marker-alt"></i> Nakkalavandla Palli, Galiveedu (M), Annamayya District, Andhra Pradesh</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CONTACT -->
+    <section class="section dark-section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get In Touch</span>
+          <h2>Contact <span class="gradient-text">Me</span></h2>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card"><i class="fas fa-phone"></i><h4>Phone</h4><p>+91 9110740255</p><p>+91 8886304204</p></div>
+          <div class="contact-card"><i class="fas fa-envelope"></i><h4>Email</h4><p>mittapalliindrasenareddy913@gmail.com</p><p>isrwebdesign.com@gmail.com</p></div>
+          <div class="contact-card"><i class="fas fa-map-marker-alt"></i><h4>Location</h4><p>Galiveedu (M), Annamayya District, Andhra Pradesh</p></div>
+        </div>
+      </div>
+    </section>
+    
+    <footer class="footer">
+      <p>© 2025 <strong>ISR Web Design</strong> · M. Indrasenareddy · All Rights Reserved</p>
+    </footer>
+</div>
+
+<script src="script.js"></script>
+<script>
+function checkPass() {
+    const input = document.getElementById('passInput').value;
+    const error = document.getElementById('errorMsg');
+    if (input === 'ISR@MB@d') {
+        document.body.classList.add('unlocked');
+    } else {
+        error.style.display = 'block';
+        document.getElementById('passInput').value = '';
+    }
+}
+</script>
+</body>
+</html>
