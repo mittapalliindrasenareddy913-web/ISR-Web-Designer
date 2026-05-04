@@ -80,13 +80,16 @@
             --bond-bg: #fff;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         .container {
@@ -312,6 +315,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
+            page-break-inside: avoid;
         }
 
         .price-table th, .price-table td {
@@ -372,56 +376,44 @@
             margin-bottom: 0.5rem;
         }
 
-        .seal {
-            width: 120px;
-            height: 120px;
-            border: 3px solid var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
-            opacity: 0.8;
-            transform: rotate(-15deg);
+        .seal-svg {
+            width: 140px;
+            height: 140px;
             margin: 0 auto 1rem auto;
-            position: relative;
-        }
-
-        .seal::after {
-            content: 'OFFICIAL';
-            position: absolute;
-            font-size: 0.6rem;
-            letter-spacing: 3px;
-            bottom: 20px;
-            font-family: 'Inter', sans-serif;
+            transform: rotate(-12deg);
+            opacity: 0.88;
+            display: block;
         }
 
         /* Print styles */
         @media print {
-            body {
-                background-color: #fff;
-            }
-            .generator-panel, .bond-actions {
-                display: none !important;
-            }
-            .bond-wrapper {
-                display: block !important;
-            }
-            .container {
-                padding: 0;
-                max-width: none;
-            }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+            @page { margin: 0; padding: 0; size: A4 portrait; }
+            html, body { margin: 0; padding: 0; background: #fff; width: 210mm; height: 297mm; }
+            #passwordOverlay { display: none !important; }
+            .generator-panel, .bond-actions { display: none !important; }
+            .bond-wrapper { display: block !important; }
+            .container { padding: 0 !important; margin: 0 !important; max-width: 100% !important; gap: 0 !important; }
             .bond-paper {
-                box-shadow: none;
-                padding: 0;
-                border: none;
-                width: 100%;
-                max-width: 100%;
+                box-shadow: none !important;
+                border: none !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                padding: 10mm 15mm !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+                overflow: hidden;
             }
+            .bond-header { margin-bottom: 1.2rem !important; padding-bottom: 0.8rem !important; }
+            .bond-header h1 { font-size: 1.8rem !important; }
+            .bond-body h3 { margin-top: 0.8rem !important; margin-bottom: 0.4rem !important; padding-bottom: 0.2rem !important; }
+            .bond-content { font-size: 0.92rem !important; line-height: 1.6 !important; }
+            .bond-content p { margin: 0.4rem 0 !important; }
+            .price-table { width: 100% !important; table-layout: fixed !important; margin: 0.5rem 0 !important; }
+            td, th { padding: 0.6rem !important; word-wrap: break-word !important; }
+            .highlight-box { margin: 1rem 0 !important; padding: 1rem !important; }
+            #termsSection { page-break-before: always !important; margin-top: 20mm !important; }
+            .bond-footer { margin-top: 3rem !important; }
         }
         
         /* Utility */
@@ -550,10 +542,13 @@
                             <p style="margin-top: 1rem;">Required Advance Payment: <span class="advance-amount">₹<span id="outAdvance"></span></span></p>
                         </div>
 
+                        <div id="termsSection">
                         <h3>4. Terms & Conditions</h3>
                         <ul style="padding-left: 1.2rem;">
                             <li style="margin-bottom: 0.5rem;">The project development will strictly begin only after the advance payment is realized.</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Non-Refundable Advance:</strong> If the project is cancelled by the client after commencement, the advance payment will not be refunded.</li>
                             <li style="margin-bottom: 0.5rem;">The remaining balance of <strong>₹<span id="outRemaining"></span></strong> (70%) must be cleared upon project completion and before the final source code handover or live deployment.</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Fixed Pricing:</strong> The agreed price is final. No requests for price reductions or further negotiations will be entertained after project completion.</li>
                             <li style="margin-bottom: 0.5rem;">Any major feature additions outside the initial scope of work will be billed separately.</li>
                             <li>By processing the advance payment, the Client agrees to these terms and authorizes <strong>isr webdesign</strong> to proceed with the project.</li>
                         </ul>
@@ -567,9 +562,6 @@
                         </div>
 
                         <div class="developer-signature">
-                            <div class="seal">
-                                isr<br>webdesign
-                            </div>
                             <div class="signature-line"></div>
                             <p><strong>Indrasena Reddy</strong><br><span style="color: #666; font-size: 0.9rem;">Lead Developer, isr webdesign</span></p>
                         </div>
@@ -657,104 +649,45 @@
             window.scrollTo(0, 0);
         });
 
-        async function downloadPDF(callback = null) {
-            const element = document.getElementById('bondPaper');
-            const clientName = document.getElementById('clientName').value || 'Client';
-            const fileName = `Bond_${clientName.replace(/\s+/g, '_')}.pdf`;
-            
-            let fileHandle;
-            // 1. Prompt user to choose save location immediately (solves async UUID bug in Chrome/Edge)
-            try {
-                if (window.showSaveFilePicker) {
-                    fileHandle = await window.showSaveFilePicker({
-                        suggestedName: fileName,
-                        types: [{
-                            description: 'PDF Document',
-                            accept: {'application/pdf': ['.pdf']},
-                        }],
-                    });
-                }
-            } catch (err) {
-                console.log("Save cancelled or failed", err);
-                return; // User cancelled
-            }
-
-            const opt = {
-              margin:       0.4,
-              image:        { type: 'jpeg', quality: 0.98 },
-              html2canvas:  { scale: 2, useCORS: true },
-              jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-              pagebreak:    { mode: ['css', 'legacy'] }
-            };
-
-            // 2. Generate PDF using blob to prevent corruption
-            html2pdf().set(opt).from(element).outputPdf('blob').then(async function(pdfBlob) {
-                if (fileHandle) {
-                    // 3. Write directly to the chosen file
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(pdfBlob);
-                    await writable.close();
-                } else {
-                    // Fallback for mobile/safari
-                    const url = window.URL.createObjectURL(pdfBlob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    setTimeout(() => {
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
-                    }, 5000); // 5 seconds to ensure large files finish downloading
-                }
-                
-                if(callback) callback();
-            });
+        function downloadPDF() {
+            // Hide actions during print
+            document.getElementById('bondActionsPanel').style.display = 'none';
+            // Trigger browser print dialog → choose "Save as PDF"
+            window.print();
+            // Restore actions after print dialog closes
+            setTimeout(function() {
+                document.getElementById('bondActionsPanel').style.display = 'flex';
+            }, 1000);
         }
 
         function sendToWhatsapp() {
-            downloadPDF(function() {
-                const clientName = document.getElementById('clientName').value;
-                const projectType = document.getElementById('projectType').value;
-                let whatsapp = document.getElementById('clientWhatsapp').value;
-                const totalPrice = document.getElementById('totalPrice').value;
-                const advance = (parseFloat(totalPrice) * 0.30).toLocaleString('en-IN');
-                
-                // Format phone number
-                whatsapp = whatsapp.replace(/\s+/g, '');
-                if(!whatsapp.startsWith('+')) {
-                    whatsapp = '+91' + whatsapp;
-                }
-                whatsapp = whatsapp.replace('+', '');
+            const clientName = document.getElementById('clientName').value;
+            const projectType = document.getElementById('projectType').value;
+            let whatsapp = document.getElementById('clientWhatsapp').value;
+            const totalPrice = document.getElementById('totalPrice').value;
+            const advance = (parseFloat(totalPrice) * 0.30).toLocaleString('en-IN');
+            
+            // Format phone number
+            whatsapp = whatsapp.replace(/\s+/g, '');
+            if(!whatsapp.startsWith('+')) { whatsapp = '+91' + whatsapp; }
+            whatsapp = whatsapp.replace('+', '');
 
-                const message = `Hello ${clientName},\n\nThis is Indrasena Reddy from *isr webdesign*.\n\nI have generated the formal Project Agreement (Bond) for your *${projectType}* project.\n\n*Project Cost:* ₹${parseFloat(totalPrice).toLocaleString('en-IN')}\n*Advance Payment (30%):* ₹${advance}\n\nPlease review the PDF document attached here for the complete phase-wise breakdown and terms.\n\nLet me know once you go through it!\n\nBest Regards,\n*isr webdesign*`;
-                
-                const url = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
-                // Add a small delay to ensure download starts before navigating
-                setTimeout(() => {
-                    window.open(url, '_blank');
-                }, 500);
-            });
+            const message = `Hello ${clientName},\n\nThis is Indrasena Reddy from *isr webdesign*.\n\nI have generated the formal Project Agreement (Bond) for your *${projectType}* project.\n\n*Project Cost:* ₹${parseFloat(totalPrice).toLocaleString('en-IN')}\n*Advance Payment (30%):* ₹${advance}\n\nPlease review the PDF document attached here for the complete phase-wise breakdown and terms.\n\nLet me know once you go through it!\n\nBest Regards,\n*isr webdesign*`;
+            
+            window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function sendToEmail() {
-            downloadPDF(function() {
-                const clientName = document.getElementById('clientName').value;
-                const projectType = document.getElementById('projectType').value;
-                const email = document.getElementById('clientEmail').value;
-                const totalPrice = document.getElementById('totalPrice').value;
-                const advance = (parseFloat(totalPrice) * 0.30).toLocaleString('en-IN');
+            const clientName = document.getElementById('clientName').value;
+            const projectType = document.getElementById('projectType').value;
+            const email = document.getElementById('clientEmail').value;
+            const totalPrice = document.getElementById('totalPrice').value;
+            const advance = (parseFloat(totalPrice) * 0.30).toLocaleString('en-IN');
 
-                const subject = `Project Agreement for ${projectType} Development - isr webdesign`;
-                const body = `Dear ${clientName},\n\nThis is Indrasena Reddy from isr webdesign.\n\nPlease find attached the formal Project Agreement for your ${projectType} project.\n\nSummary:\n- Total Project Cost: Rs. ${parseFloat(totalPrice).toLocaleString('en-IN')}\n- Advance Payment Required (30%): Rs. ${advance}\n\nPlease review the attached PDF for the complete cost breakdown and terms of service. Let me know if you have any questions.\n\nLooking forward to working with you!\n\nBest Regards,\nIndrasena Reddy\nLead Developer, isr webdesign`;
+            const subject = `Project Agreement for ${projectType} Development - isr webdesign`;
+            const body = `Dear ${clientName},\n\nThis is Indrasena Reddy from isr webdesign.\n\nPlease find attached the formal Project Agreement for your ${projectType} project.\n\nSummary:\n- Total Project Cost: Rs. ${parseFloat(totalPrice).toLocaleString('en-IN')}\n- Advance Payment Required (30%): Rs. ${advance}\n\nPlease review the attached PDF for the complete cost breakdown and terms of service.\n\nBest Regards,\nIndrasena Reddy\nLead Developer, isr webdesign`;
 
-                const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                
-                setTimeout(() => {
-                    window.open(url, '_self');
-                }, 500);
-            });
+            window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_self');
         }
 
         function editForm() {
@@ -762,6 +695,56 @@
             document.getElementById('generatorPanel').style.display = 'block';
             window.scrollTo(0, 0);
         }
+
+        function generateStamp() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const monthNames = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+            const month = monthNames[now.getMonth()];
+            const year = now.getFullYear();
+            const fullDate = `${day} ${month} ${year}`;
+
+            const C = 75; // center x,y
+            const R1 = 71; // outer radius
+            const R2 = 64; // inner radius
+            const R3 = 58; // text arc radius (top)
+            const R4 = 54; // text arc radius (bottom)
+
+            const svg = `<svg class="seal-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+  <!-- Outer double border -->
+  <circle cx="${C}" cy="${C}" r="${R1}" fill="none" stroke="#e94560" stroke-width="2.5"/>
+  <circle cx="${C}" cy="${C}" r="${R2}" fill="none" stroke="#e94560" stroke-width="1"/>
+
+  <!-- Top curved text: ISR WEBDESIGN -->
+  <path id="topPath" fill="none"
+    d="M ${C - R3},${C} A ${R3},${R3} 0 1,1 ${C + R3},${C}"/>
+  <text font-size="10.5" fill="#e94560" font-family="'Playfair Display',Georgia,serif"
+        font-weight="700" letter-spacing="2.5">
+    <textPath href="#topPath" startOffset="7%">ISR  WEBDESIGN</textPath>
+  </text>
+
+  <!-- Bottom curved text: Dynamic Date -->
+  <path id="bottomPath" fill="none"
+    d="M ${C - R4},${C} A ${R4},${R4} 0 0,0 ${C + R4},${C}"/>
+  <text font-size="10" fill="#e94560" font-family="'Inter', sans-serif"
+        font-weight="700" letter-spacing="1.5">
+    <textPath href="#bottomPath" startOffset="50%" text-anchor="middle" dominant-baseline="middle" style="text-anchor: middle;">
+        <tspan dy="-2">${fullDate}</tspan>
+    </textPath>
+  </text>
+
+  <!-- Middle Text: ISR -->
+  <text x="${C}" y="82" text-anchor="middle"
+        font-size="24" fill="#e94560" font-family="'Playfair Display',serif" font-weight="900" letter-spacing="1">ISR</text>
+
+  <!-- Decorative small circles on sides -->
+  <circle cx="${C - R3 + 4}" cy="${C + 10}" r="1.5" fill="#e94560"/>
+  <circle cx="${C + R3 - 4}" cy="${C + 10}" r="1.5" fill="#e94560"/>
+</svg>`;
+
+            document.getElementById('sealContainer').innerHTML = svg;
+        }
     </script>
+
 </body>
 </html>
